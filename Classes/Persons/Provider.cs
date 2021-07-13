@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using bd2_trabalho_final.Enums;
+using bd2_trabalho_final.Classes.Persons;
 
 namespace bd2_trabalho_final.Classes
 {

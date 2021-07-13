@@ -8,7 +8,7 @@ namespace bd2_trabalho_final.Enums
 {
     public enum ProductTransactionType
     {
-        PURCHASE,
-        SALE,
+        PURCHASE = 1,
+        SALE = 2,
     }
 }

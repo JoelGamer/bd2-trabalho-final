@@ -170,10 +170,76 @@ CREATE TABLE PRODUCT_TRANSACTION(
 );
 GO
 
-CREATE PROCEDURE CREATE_OPERATOR (@name VARCHAR(120), @username VARCHAR(36), @password VARCHAR(24), @is_administrator BIT) AS
+CREATE TRIGGER OPERATOR_DELETE
+ON OPERATOR
+FOR DELETE
+AS
 BEGIN
-	DECLARE @person TABLE(id INT); 
-	DECLARE @user TABLE(id INT); 
+	DECLARE @id_user INT;
+	DECLARE @id_person INT;
+
+	SET @id_user = (SELECT id_user FROM deleted WHERE id = deleted.id);
+	SET @id_person = (SELECT id_person FROM [USER] WHERE id = @id_user);
+
+	DELETE FROM [USER] WHERE id = @id_user;
+	DELETE FROM PERSON WHERE id = @id_person;
+END
+GO
+
+CREATE VIEW OPERATOR_INFO
+AS
+	SELECT p.id AS id_person, p.name, u.id AS id_user, u.id_type, o.id, o.is_administrator
+	FROM OPERATOR AS o
+	INNER JOIN [USER] AS u ON o.id_user = u.id
+	INNER JOIN PERSON AS p ON u.id_person = p.id
+	WHERE u.id_type = 2;
+GO
+
+SELECT * FROM OPERATOR_INFO;
+SELECT * FROM OPERATOR_INFO WHERE id = 1;
+GO
+
+CREATE VIEW OPERATOR_INFO_HUMANIZED
+AS
+	SELECT o.id, p.name, u.id_type, u.username, o.is_administrator
+	FROM OPERATOR AS o
+	INNER JOIN [USER] AS u ON o.id_user = u.id
+	INNER JOIN PERSON AS p ON u.id_person = p.id
+	WHERE u.id_type = 2;
+GO
+
+SELECT * FROM OPERATOR_INFO_HUMANIZED;
+SELECT * FROM OPERATOR_INFO_HUMANIZED WHERE id = 1;
+GO
+
+CREATE VIEW CLIENT_INFO
+AS
+	SELECT p.id AS id_person, p.name, u.id AS id_user, u.id_type, c.id, c.cpf
+	FROM CLIENT AS c
+	INNER JOIN [USER] AS u ON c.id_user = u.id
+	INNER JOIN PERSON AS p ON u.id_person = p.id
+	WHERE u.id_type = 1;
+GO
+
+SELECT * FROM CLIENT_INFO;
+SELECT * FROM CLIENT_INFO WHERE id = 2;
+GO
+
+CREATE VIEW USER_INFO
+AS
+	SELECT p.id AS id_person, p.name, u.id AS id_user, u.id_type
+	FROM [USER] AS u
+	INNER JOIN PERSON AS p ON u.id_person = p.id;
+GO
+
+SELECT * FROM USER_INFO WHERE id_type = 1;
+SELECT * FROM USER_INFO WHERE id_type = 2;
+GO
+
+CREATE PROCEDURE CREATE_OPERATOR(@name VARCHAR(120), @username VARCHAR(36), @password VARCHAR(24), @is_administrator BIT) AS
+BEGIN
+	DECLARE @person TABLE(id INT);
+	DECLARE @user TABLE(id INT);
 
 	INSERT INTO PERSON(name) OUTPUT INSERTED.id INTO @person VALUES(@name);
 	INSERT INTO [USER](id_person, id_type, username, password) OUTPUT INSERTED.id INTO @user VALUES((SELECT id FROM @person), 2, @username, @password);
@@ -184,17 +250,71 @@ GO
 EXEC CREATE_OPERATOR 'Administrador', 'admin', 'admin', 1;
 GO
 
-CREATE PROCEDURE SystemLogin (@username VARCHAR(36), @password VARCHAR(24)) AS
+CREATE PROCEDURE UPDATE_OPERATOR(@id INT, @name VARCHAR(120), @username VARCHAR(36), @password VARCHAR(24), @is_administrator BIT) AS
+BEGIN
+	DECLARE @person TABLE(id INT);
+	DECLARE @user TABLE(id INT);
+
+	UPDATE OPERATOR SET is_administrator = @is_administrator OUTPUT INSERTED.id_user INTO @user WHERE id = @id;
+	UPDATE [USER] SET username = @username, password = @password OUTPUT INSERTED.id_person INTO @person WHERE id = (SELECT id FROM @user);
+	UPDATE PERSON SET name = @name WHERE id = (SELECT id FROM @person);
+END
+GO
+
+EXEC UPDATE_OPERATOR 1, 'Administrador Master', 'admin', 'admin', 1;
+GO
+
+CREATE PROCEDURE CREATE_CLIENT(@name VARCHAR(120), @username VARCHAR(36), @password VARCHAR(24), @cpf BIGINT) AS
+BEGIN
+	DECLARE @person TABLE(id INT);
+	DECLARE @user TABLE(id INT); 
+
+	INSERT INTO PERSON(name) OUTPUT INSERTED.id INTO @person VALUES(@name);
+	INSERT INTO [USER](id_person, id_type, username, password) OUTPUT INSERTED.id INTO @user VALUES((SELECT id FROM @person), 1, @username, @password);
+	INSERT INTO CLIENT(id_user, cpf) VALUES ((SELECT id FROM @user), @cpf);
+END
+GO
+
+EXEC CREATE_CLIENT 'Guilherme Theodoro', 'joelgamer', 'superduperpass1', 64217832010;
+GO
+
+CREATE PROCEDURE CREATE_PRODUCT_CATEGORY(@name VARCHAR(120)) AS
+BEGIN
+	INSERT INTO PRODUCT_CATEGORY(name) VALUES(@name);
+END
+GO
+
+EXEC CREATE_PRODUCT_CATEGORY 'Roupas';
+GO
+
+CREATE PROCEDURE UPDATE_PRODUCT_CATEGORY(@id INT, @name VARCHAR(120)) AS
+BEGIN
+	UPDATE PRODUCT_CATEGORY SET name = @name WHERE id = @id;
+END
+GO
+
+EXEC UPDATE_PRODUCT_CATEGORY 1, 'Eletrônicos';
+GO
+
+CREATE PROCEDURE SYSTEM_LOGIN(@username VARCHAR(36), @password VARCHAR(24)) AS
 BEGIN
 	DECLARE @id_user INT = 0;
 
 	SET @id_user = (SELECT id FROM [USER] WHERE username = @username AND password = @password);
 
 	IF (@id_user != 0) BEGIN
-		RETURN 1;
+		RETURN @id_user;
 	END
 
 	RETURN 0;
 END
 GO
+
+DECLARE @RETURN INT;
+EXEC @RETURN = SYSTEM_LOGIN 'admin', 'admin';
+PRINT @RETURN
+EXEC @RETURN = SYSTEM_LOGIN 'joelgamer', 'superduperpass1';
+PRINT @RETURN
+GO
+
 

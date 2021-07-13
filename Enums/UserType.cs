@@ -8,7 +8,7 @@ namespace bd2_trabalho_final.Enums
 {
     public enum UserType
     {
-        Client,
-        Operator,
+        Client = 1,
+        Operator = 2,
     }
 }

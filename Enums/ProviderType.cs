@@ -8,7 +8,7 @@ namespace bd2_trabalho_final.Enums
 {
     public enum ProviderType
     {
-        Fisical,
-        Legal,
+        Fisical = 1,
+        Legal = 2,
     }
 }

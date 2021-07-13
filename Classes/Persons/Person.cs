@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace bd2_trabalho_final.Classes
+namespace bd2_trabalho_final.Classes.Persons
 {
     class Person : Unique
     {

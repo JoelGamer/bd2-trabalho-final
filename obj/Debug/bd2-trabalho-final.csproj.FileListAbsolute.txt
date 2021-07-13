@@ -9,3 +9,16 @@ D:\Projetos\bd2-trabalho-final\obj\Debug\bd2-trabalho-final.csproj.CoreCompileIn
 D:\Projetos\bd2-trabalho-final\obj\Debug\bd2-trabalho-final.exe
 D:\Projetos\bd2-trabalho-final\obj\Debug\bd2-trabalho-final.pdb
 D:\Projetos\bd2-trabalho-final\obj\Debug\bd2_trabalho_final.Forms.FrmLogin.resources
+C:\Users\user\OneDrive\Desktop\bd2-trabalho-final-main\bin\Debug\bd2-trabalho-final.exe.config
+C:\Users\user\OneDrive\Desktop\bd2-trabalho-final-main\bin\Debug\bd2-trabalho-final.exe
+C:\Users\user\OneDrive\Desktop\bd2-trabalho-final-main\bin\Debug\bd2-trabalho-final.pdb
+C:\Users\user\OneDrive\Desktop\bd2-trabalho-final-main\obj\Debug\bd2-trabalho-final.csproj.AssemblyReference.cache
+C:\Users\user\OneDrive\Desktop\bd2-trabalho-final-main\obj\Debug\bd2_trabalho_final.Properties.Resources.resources
+C:\Users\user\OneDrive\Desktop\bd2-trabalho-final-main\obj\Debug\bd2-trabalho-final.csproj.GenerateResource.cache
+C:\Users\user\OneDrive\Desktop\bd2-trabalho-final-main\obj\Debug\bd2-trabalho-final.csproj.CoreCompileInputs.cache
+C:\Users\user\OneDrive\Desktop\bd2-trabalho-final-main\obj\Debug\bd2-trabalho-final.exe
+C:\Users\user\OneDrive\Desktop\bd2-trabalho-final-main\obj\Debug\bd2-trabalho-final.pdb
+C:\Users\user\OneDrive\Desktop\bd2-trabalho-final-main\obj\Debug\bd2_trabalho_final.Forms.FrmMainmenu.resources
+C:\Users\user\OneDrive\Desktop\bd2-trabalho-final-main\obj\Debug\bd2_trabalho_final.Forms.FrmLogin.resources
+C:\Users\user\OneDrive\Desktop\bd2-trabalho-final-main\obj\Debug\bd2_trabalho_final.Forms.OperatorForms.FrmUser.resources
+C:\Users\user\OneDrive\Desktop\bd2-trabalho-final-main\obj\Debug\bd2_trabalho_final.Forms.OperatorForms.FrmProductsCategories.resources

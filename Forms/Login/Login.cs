@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using bd2_trabalho_final.Classes;
+using bd2_trabalho_final.Enums;
 using bd2_trabalho_final.Services;
 
 namespace bd2_trabalho_final.Forms
@@ -34,21 +36,24 @@ namespace bd2_trabalho_final.Forms
             }
         }
 
+
         private void PerformUserLogin()
         {
             string username = TbxUsername.Text;
             string password = TbxPassword.Text;
+            int idUser = LoginService.IsValidLogin(username, password);
 
-            if (Login.IsValidLogin(username, password))
+            if (idUser != 0)
             {
                 SaveSettings();
+
+                if (UserService.GetUser(idUser).UserType == UserType.Client) Session.Client = UserService.GetClient(idUser);
+                else Session.Operator = UserService.GetOperator(idUser);
+
                 Hide();
-                // new FrmMainMenu().Show();
+                new FrmMainMenu().Show();
             }
-            else
-            {
-                MessageBox.Show("Usuário e/ou senha inválido!", "Login", MessageBoxButtons.OK);
-            }
+            else MessageBox.Show("Usuário e/ou senha inválido!", "Login", MessageBoxButtons.OK);
         }
 
         private void SaveSettings()

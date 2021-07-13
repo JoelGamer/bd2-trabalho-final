@@ -28,6 +28,18 @@ namespace bd2_trabalho_final.Classes.Persons.Users
             set { user.Name = value; }
         }
 
+        public string Username
+        {
+            get { return user.Username; }
+            set { user.Username = value; }
+        }
+
+        public string Password
+        {
+            get { return user.Password; }
+            set { user.Password = value; }
+        }
+
         public bool IsAdministrator
         {
             get { return isAdministrator; }

@@ -11,11 +11,21 @@ namespace bd2_trabalho_final.Classes.Persons.Users
     {
         private readonly Person person;
         private UserType userType;
+        private string username = "";
+        private string password = "";
 
         public User(int id, Person person, UserType userType) : base(id)
         {
             this.person = person;
             this.userType = userType;
+        }
+
+        public User(int id, Person person, UserType userType, string username, string password) : base(id)
+        {
+            this.person = person;
+            this.userType = userType;
+            this.username = username;
+            this.password = password;
         }
 
         public Person Person
@@ -33,6 +43,18 @@ namespace bd2_trabalho_final.Classes.Persons.Users
         {
             get { return userType; }
             set { userType = value; }
+        }
+
+        public string Username
+        {
+            get { return username; }
+            set { username = value; }
+        }
+
+        public string Password
+        {
+            get { return password; }
+            set { password = value; }
         }
     }
 }
